@@ -2,13 +2,14 @@
 
 import PageBanner from "@/app/components/PageBanner";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import styles from "../../components/auth.module.css";
-import SectionHead from "@/app/components/SectionHead";
+// import SectionHead from "@/app/components/SectionHead"; // This was defined but never used
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function LoginPage() {
+// --- New Component holding all client-side logic and hooks ---
+function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPw] = useState("");
   const [remember, setRemember] = useState(false);
@@ -16,6 +17,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
+  // useSearchParams is safe here because it's inside a client component
   const sp = useSearchParams();
   const next = sp.get("next") ?? "/";
 
@@ -35,13 +37,10 @@ export default function LoginPage() {
 
     setLoading(true);
     try {
-      // Map "Username or Email" to the credentials field your Provider expects.
-      // If your CredentialsProvider uses "email", we pass username as email.
       const res = await signIn("credentials", {
-        email: username.trim(), // or change to "username" if your provider uses that key
+        email: username.trim(),
         password,
         redirect: false,
-        // You can persist "remember" via a cookie yourself if needed.
         callbackUrl: next,
       });
 
@@ -61,151 +60,168 @@ export default function LoginPage() {
   }
 
   const handleSocial = (provider: "google" | "facebook" | "linkedin") => {
-    // Ensure you have these providers configured in [...nextauth]/route.ts
     signIn(provider, { callbackUrl: next });
   };
 
   return (
-    <>
-      <PageBanner title="Login" />
-      <section
-        className={styles.bgSection}
-        style={{ backgroundImage: `url(${bg})` }}
-      >
-        <div className={styles.loginSection}>
-          <div className={styles.shade}></div>
-          <div className={styles.loginContent}>
-            <div
-              className={styles.sectionHead}
-              style={{ backgroundImage: `url(${headerBg})` }}
-            >
-              <div className={styles.sectionTitle}>
-                Welcome To <span> HYIPLAB</span>
-              </div>
-              <div className={styles.details}>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus
-                distinctio deserunt impedit similique debitis voluptatum enim.
-              </div>
+    <section
+      className={styles.bgSection}
+      style={{ backgroundImage: `url(${bg})` }}
+    >
+      <div className={styles.loginSection}>
+        <div className={styles.shade}></div>
+        <div className={styles.loginContent}>
+          <div
+            className={styles.sectionHead}
+            style={{ backgroundImage: `url(${headerBg})` }}
+          >
+            <div className={styles.sectionTitle}>
+              Welcome To <span> HYIPLAB</span>
             </div>
-
-            <div className={styles.loginLinks}>
-              <button
-                type="button"
-                className={styles.loginButtons}
-                onClick={() => handleSocial("google")}
-                disabled={loading}
-              >
-                <img
-                  src="https://script.viserlab.com/hyiplab/demo/assets/global/images/google.svg"
-                  alt=""
-                />
-                Login with Google
-              </button>
-              <button
-                type="button"
-                className={styles.loginButtons}
-                onClick={() => handleSocial("facebook")}
-                disabled={loading}
-              >
-                <img
-                  src="https://script.viserlab.com/hyiplab/demo/assets/global/images/facebook.svg"
-                  alt=""
-                />
-                Login with Facebook
-              </button>
-              <button
-                type="button"
-                className={styles.loginButtons}
-                onClick={() => handleSocial("linkedin")}
-                disabled={loading}
-              >
-                <img
-                  src="https://script.viserlab.com/hyiplab/demo/assets/global/images/linkedin.svg"
-                  alt=""
-                />
-                Login with Linkedin
-              </button>
-              <button
-                type="button"
-                className={styles.loginButtons}
-                // TODO: wire MetaMask/SIWE separately (not a NextAuth default)
-                onClick={() => setError("MetaMask login not configured yet.")}
-                disabled={loading}
-              >
-                <img
-                  src="https://script.viserlab.com/hyiplab/demo/assets/templates/bit_gold/images/metamask.png"
-                  alt=""
-                />
-                Login with MetaMask
-              </button>
-            </div>
-
-            <div className="text-center text-white mt-4">
-              <span>OR</span>
+            <div className={styles.details}>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus
+              distinctio deserunt impedit similique debitis voluptatum enim.
             </div>
           </div>
-        </div>
 
-        <div className={styles.loginSection2}>
-          {error && <div className="mb-4 text-red-500">{error}</div>}
-
-          <form onSubmit={onSubmit}>
-            <div className={styles.FormEvents}>
-              <label className={styles.FormLabel}>Username or Email</label>
-              <input
-                value={username}
-                className={styles.FormInput}
-                onChange={(e) => setUsername(e.target.value)}
-                autoComplete="username email"
-                placeholder="you@example.com"
+          <div className={styles.loginLinks}>
+            <button
+              type="button"
+              className={styles.loginButtons}
+              onClick={() => handleSocial("google")}
+              disabled={loading}
+            >
+              <img
+                src="https://script.viserlab.com/hyiplab/demo/assets/global/images/google.svg"
+                alt="Google Icon"
               />
-            </div>
-
-            <div className={styles.FormEvents}>
-              <div className="flex justify-between">
-                <label className={styles.FormLabel}>Password</label>
-                <Link className={styles.link} href="/password/reset">
-                  Forgot your password?
-                </Link>
-              </div>
-              <input
-                type="password"
-                className={styles.FormInput}
-                value={password}
-                onChange={(e) => setPw(e.target.value)}
-                autoComplete="current-password"
-                placeholder="••••••••"
+              Login with Google
+            </button>
+            <button
+              type="button"
+              className={styles.loginButtons}
+              onClick={() => handleSocial("facebook")}
+              disabled={loading}
+            >
+              <img
+                src="https://script.viserlab.com/hyiplab/demo/assets/global/images/facebook.svg"
+                alt="Facebook Icon"
               />
-            </div>
+              Login with Facebook
+            </button>
+            <button
+              type="button"
+              className={styles.loginButtons}
+              onClick={() => handleSocial("linkedin")}
+              disabled={loading}
+            >
+              <img
+                src="https://script.viserlab.com/hyiplab/demo/assets/global/images/linkedin.svg"
+                alt="LinkedIn Icon"
+              />
+              Login with Linkedin
+            </button>
+            <button
+              type="button"
+              className={styles.loginButtons}
+              // TODO: wire MetaMask/SIWE separately (not a NextAuth default)
+              onClick={() => setError("MetaMask login not configured yet.")}
+              disabled={loading}
+            >
+              <img
+                src="https://script.viserlab.com/hyiplab/demo/assets/templates/bit_gold/images/metamask.png"
+                alt="MetaMask Icon"
+              />
+              Login with MetaMask
+            </button>
+          </div>
 
-            <div className="flex flex-col">
-              <label className={styles.rememberMe}>
-                <input
-                  type="checkbox"
-                  checked={remember}
-                  onChange={(e) => setRemember(e.target.checked)}
-                />
-                <p>Remember Me</p>
-              </label>
-
-              <button
-                className={styles.loginButtons}
-                type="submit"
-                disabled={loading}
-              >
-                {loading ? "Logging in…" : "Login"}
-              </button>
-
-              <p>
-                Don&apos;t have any account?{" "}
-                <Link href="/register" className={styles.link}>
-                  Register
-                </Link>
-              </p>
-            </div>
-          </form>
+          <div className="text-center text-white mt-4">
+            <span>OR</span>
+          </div>
         </div>
-      </section>
+      </div>
+
+      <div className={styles.loginSection2}>
+        {error && <div className="mb-4 text-red-500">{error}</div>}
+
+        <form onSubmit={onSubmit}>
+          <div className={styles.FormEvents}>
+            <label className={styles.FormLabel}>Username or Email</label>
+            <input
+              value={username}
+              className={styles.FormInput}
+              onChange={(e) => setUsername(e.target.value)}
+              autoComplete="username email"
+              placeholder="you@example.com"
+            />
+          </div>
+
+          <div className={styles.FormEvents}>
+            <div className="flex justify-between">
+              <label className={styles.FormLabel}>Password</label>
+              <Link className={styles.link} href="/password/reset">
+                Forgot your password?
+              </Link>
+            </div>
+            <input
+              type="password"
+              className={styles.FormInput}
+              value={password}
+              onChange={(e) => setPw(e.target.value)}
+              autoComplete="current-password"
+              placeholder="••••••••"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label className={styles.rememberMe}>
+              <input
+                type="checkbox"
+                checked={remember}
+                onChange={(e) => setRemember(e.target.checked)}
+              />
+              <p>Remember Me</p>
+            </label>
+
+            <button
+              className={styles.loginButtons}
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? "Logging in…" : "Login"}
+            </button>
+
+            <p>
+              Don&apos;t have any account?{" "}
+              <Link href="/register" className={styles.link}>
+                Register
+              </Link>
+            </p>
+          </div>
+        </form>
+      </div>
+    </section>
+  );
+}
+// --- End of LoginForm ---
+
+// --- Main Page Export ---
+// This is the exported page component that handles the Suspense wrapper
+export default function LoginPage() {
+  return (
+    <>
+      <PageBanner title="Login" />
+      {/* Fallback displayed while searchParams are being resolved */}
+      <Suspense
+        fallback={
+          <div className="text-center p-20 text-gray-700">
+            Loading login form...
+          </div>
+        }
+      >
+        <LoginForm />
+      </Suspense>
     </>
   );
 }
