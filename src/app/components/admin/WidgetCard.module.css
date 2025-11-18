@@ -1,0 +1,109 @@
+/* basic link/card layout */
+.link {
+  text-decoration: none;
+  display: block;
+}
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 14px 16px;
+}
+
+/* left area */
+.left {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.row {
+  display: flex;
+  align-items: center;
+}
+
+/* icon wrapper with translucent background — BGColor classes set color used by ::before */
+.iconWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.5rem;
+  color: rgb(37 99 235);
+}
+.iconWrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0.2; /* translucent */
+}
+
+/* icon itself sits above the pseudo background */
+.icon {
+  position: relative;
+  z-index: 1;
+  font-size: 22px;
+  color: rgb(15 23 42); /* default dark fallback */
+}
+
+/* BGColor classes set the iconWrap color (the pseudo uses currentColor) */
+/* Primary */
+.primaryBG {
+  color: #4634ff;
+} /* #4634ff */
+.primaryBG .icon {
+  color: #4634ff;
+} /* darker icon color */
+/* Success */
+.successBG {
+  color: #28c76f;
+} /* #28c76f */
+.successBG .icon {
+  color: #28c76f;
+}
+/* Warning */
+.warningBG {
+  color: #ff9f43;
+} /* #ff9f43 */
+.warningBG .icon {
+  color: #ff9f43;
+}
+/* Danger */
+.dangerBG {
+  color: #eb2222;
+} /* #eb2222 */
+.dangerBG .icon {
+  color: #eb2222;
+}
+
+/* content */
+.body {
+  display: grid;
+  gap: 2px;
+}
+.title {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgb(100 116 139);
+}
+.value {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+/* chevron on the right */
+.chev {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.6);
+}

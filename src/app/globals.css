@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Exo:wght@400;700&display=swap");
+
 @import "tailwindcss";
 
 :root {
@@ -22,5 +24,27 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Exo", sans-serif;
+  font-family: "Exo", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif;
+}
+/* Make pagination bullets into short horizontal bars */
+
+.swiper-pagination-bullet {
+  width: 15px !important;
+  height: 6px !important;
+  background: hsla(40, 54%, 56%, 0.2) !important;
+  border-radius: 3px !important;
+  margin: 0px 10px 0px 0px !important; /* space them out */
+  opacity: 1 !important; /* ensure visible */
+  transition: all 0.3s ease !important;
+}
+
+/* Active bullet: gold and a bit wider */
+.swiper-pagination-bullet-active {
+  width: 30px !important;
+  background: hsla(40, 54%, 56%, 1) !important;
+}
+.swiper-pagination {
+  margin-top: 3rem !important;
 }

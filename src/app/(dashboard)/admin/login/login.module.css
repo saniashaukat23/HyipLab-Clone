@@ -1,0 +1,109 @@
+.loginMain {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden; /* ensure overlay stays inside */
+}
+.loginWrapperTop {
+  padding: 60px 30px 40px 30px;
+  background-color: #3d2bfb;
+  text-align: center;
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+/* Black shade overlay */
+.loginMain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2); /* adjust opacity here */
+  z-index: 0;
+}
+.formContent {
+  margin-top: 40px;
+}
+.form {
+  padding: 60px 40px 40px 40px;
+  background-color: #1e157d;
+  border-radius: 8px;
+  position: relative;
+  z-index: -1;
+  top: -40px;
+}
+.loginArea {
+  position: relative; /* keeps it above overlay */
+  border-radius: 12px;
+
+  width: 100%;
+  max-width: 480px;
+  z-index: 1; /* sits above background shade */
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #ddd;
+  margin-bottom: 1.5rem;
+}
+
+.formGroup {
+  margin-bottom: 1.25rem;
+}
+
+.label {
+  display: block;
+  color: #ffffff99;
+
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 4px;
+  color: white;
+  border: 1px solid #ffffff99;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #0d6efd;
+}
+
+.forgot {
+  font-size: 0.85rem;
+  color: #ffffff99;
+  text-decoration: underline;
+  float: right;
+}
+
+.forgot:hover {
+  color: white;
+}
+
+.button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #3d2bfb;
+  font-weight: 600;
+  font-size: 1rem;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover {
+  background-color: #3224d1; /* yellow-500 */
+}

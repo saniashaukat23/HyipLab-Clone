@@ -1,0 +1,112 @@
+.link {
+  display: block;
+  text-decoration: none;
+}
+
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0.25rem;
+  background-color: white;
+  padding: 0.75rem 1.25rem;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 150ms ease, transform 150ms ease;
+}
+
+.left {
+  display: flex;
+  gap: 1rem;
+}
+.card:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+.blue {
+  color: #007bff;
+}
+.green {
+  color: #127681;
+}
+.orange {
+  color: #ff5200;
+}
+.purple {
+  color: #342ead;
+}
+.primary {
+  color: #4634ff;
+  border: 1px solid #4634ff;
+}
+.success {
+  color: #28c76f;
+  border: 1px solid #28c76f;
+}
+.danger {
+  color: #eb2222;
+  border: 1px solid #eb2222;
+}
+.warning {
+  color: #ff9f43;
+  border: 1px solid #ff9f43;
+}
+.primaryBG {
+  background-color: #4634ff;
+}
+.successBG {
+  background-color: #28c76f;
+}
+.dangerBG {
+  background-color: #eb2222;
+}
+.warningBG {
+  background-color: #ff9f43;
+}
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.iconWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0.25rem;
+  background-color: transparent;
+}
+.iconWrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 0.5rem;
+  background: currentColor;
+  opacity: 0.2;
+}
+.iconWrap i {
+  position: relative;
+  z-index: 1;
+}
+
+.link:hover .arrow {
+  transform: translateX(2px);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #000;
+}
+
+.title {
+  font-size: 12px;
+}
+
+.value {
+  font-size: 22px;
+  font-weight: 600;
+}
